@@ -1,24 +1,32 @@
-import {fn} from './factory'
+import { fn } from './factory'
 
-const login = fn<{username: string; password: string}, boolean>(
-  async (args, _, req) => {
+const login = fn<{ username: string; password: string }, boolean>(
+  async (args, _, { req }) => {
+    console.log("process.env.CODESPACE_NAME")
+    console.log(process.env.CODESPACE_NAME)
 
     // proxyTo(url)
-    const url = "https://kleberbaum-snek-at-jaen-template-4vv5wq9jfx6q-4000.githubpreview.dev/graphql"
-
-    const res = await fetch(url, {
+    let res = await fetch('https://kleberbaum-snek-at-jaen-template-4vv5wq9jfx6q-4000.githubpreview.dev/graphql', {
       method: 'POST',
-      headers: req.headers,
-      body: req.body
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: req.body,
     })
 
-    console.log(res)
+    // const url = "https://mhq6yscu56.execute-api.eu-central-1.amazonaws.com/graphql"
 
-    return res
-    
+    // const res = await fetch(url, {
+    //   method: 'POST',
+    //   body: req.body
+    // })
+
+    return res.json()
+
   },
   {
-    name: 'login'
+    name: 'login',
+    decorators: []
   }
 )
 

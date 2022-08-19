@@ -6,12 +6,13 @@
   "description": "Generated with `snek-functions init -f functions`",
   "author": "snek-at",
   "dependencies": {
-    "@snek-at/functions": "*"
+    "@snek-at/functions": "^0.0.40"
   },
   "devDependencies": {
     "nodemon": "^2.0.19",
     "patch-package": "^6.4.7",
     "serverless": "^3.19.0",
+    "serverless-cloudflare-workers": "^1.2.0",
     "serverless-offline": "^8.8.0",
     "serverless-plugin-ifelse": "^1.0.7"
   },

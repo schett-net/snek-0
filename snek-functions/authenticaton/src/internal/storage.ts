@@ -18,8 +18,8 @@ export async function queryDatabaseWithIterator(user: string) {
     await connection.executeIterator(`SET s3_session_token='${process.env.AWS_SESSION_TOKEN}'`);
   }
 
-  await connection.executeIterator("CREATE TABLE 'user' AS SELECT * FROM parquet_scan('0_user.parquet')")
-  await connection.executeIterator("CREATE TABLE 'alias' AS SELECT * FROM parquet_scan('1_alias.parquet')")
+  await connection.executeIterator("CREATE TABLE 'user' AS SELECT * FROM parquet_scan('s3://snekauth/0_user.parquet')")
+  await connection.executeIterator("CREATE TABLE 'alias' AS SELECT * FROM parquet_scan('s3://snekauth/1_alias.parquet')")
   // await connection.executeIterator("CREATE TABLE 'user' (uid INTEGER, password VARCHAR)")
   // await connection.executeIterator("CREATE TABLE 'alias' (uid INTEGER, alias VARCHAR)")
   // await connection.executeIterator("INSERT INTO 'user' VALUES (1 , 'ciscocisco');")

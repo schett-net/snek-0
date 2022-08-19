@@ -1,27 +1,26 @@
-service: snek-functions-graphql-helix-express
+service: origin
 frameworkVersion: '3'
 
 plugins:
   - serverless-offline
   - serverless-plugin-ifelse
+  - serverless-cloudflare-workers
 
 custom:
   isOffline: ${env:IS_OFFLINE, "false"}
   serverlessIfElse:
     - If: '"${self:custom.isOffline}" != "true"'
       Exclude:
-        - functions.endpoint.handler
+        - functions.endpoint
       ElseExclude:
         - functions.endpoint.image
+        - functions.cf-workers
 
 provider:
-  name: aws
-  region: eu-central-1
-
-  ecr:
-    images:
-      appimage:
-        path: ./
+  name: cloudflare
+  config:
+    accountId: ${env:CLOUDFLARE_ACCOUNT_ID, ""}
+    zoneId: ${env:CLOUDFLARE_ZONE_ID, ""}
 
 functions:
   endpoint:
@@ -34,3 +33,11 @@ functions:
       - httpApi:
           path: '*'
           method: '*'
+
+  cf-workers:
+    name: origin
+    script: index
+    events:
+      - http:
+          url: snek.at/graphql
+          method: GET
