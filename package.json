@@ -8,7 +8,7 @@
     "gatsby"
   ],
   "scripts": {
-    "develop": "concurrently --kill-others \"gatsby develop --port 8000\" \"yarn --cwd ./snek-functions/origin start\" \"yarn --cwd ./snek-functions/authenticaton start\" \"yarn --cwd ./snek-functions/registraton start\"",
+    "develop": "concurrently --kill-others \"gatsby develop --port 8000\" \"yarn --cwd ./snek-functions/origin start\" \"yarn --cwd ./snek-functions/authenticaton start\" \"yarn --cwd ./snek-functions/iam start\" \"yarn --cwd ./snek-functions/registraton start\"",
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
@@ -25,6 +25,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@jaenjs/jaen": "^3.0.0-beta.70",
     "@loadable/component": "^5.15.2",
+    "@react-icons/all-files": "^4.1.0",
     "@types/react-helmet": "^6.1.5",
     "authenticaton": "file:snek-functions/authenticaton/",
     "bootstrap": "^5.1.3",
@@ -36,11 +37,15 @@
     "gatsby-plugin-loadable-components-ssr": "^4.2.0",
     "gatsby-plugin-react-helmet": "^5.18.0",
     "gatsby-plugin-sass": "^5.18.1",
+    "iam": "file:snek-functions/iam",
+    "node-fetch": "^3.2.10",
     "node-sass": "^7.0.1",
     "origin": "file:snek-functions/origin",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-helmet": "^6.1.0",
+    "react-hook-form": "^7.34.2",
+    "react-router-dom": "^6.3.0",
     "registraton": "file:snek-functions/registraton"
   },
   "devDependencies": {
@@ -48,10 +53,10 @@
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "concurrently": "^7.3.0",
-    "typescript": "^4.7.4",
     "serverless": "^3.19.0",
     "serverless-offline": "^8.8.0",
-    "serverless-plugin-ifelse": "^1.0.7"
+    "serverless-plugin-ifelse": "^1.0.7",
+    "typescript": "^4.7.4"
   },
   "workspaces": {
     "nohoist": [

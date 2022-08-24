@@ -1,5 +1,5 @@
 {
-  "name": "origin",
+  "name": "iam",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -17,7 +17,7 @@
     "serverless-plugin-ifelse": "^1.0.7"
   },
   "scripts": {
-    "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline --httpPort 5000 --lambdaPort 5002",
+    "start": "IS_OFFLINE=true nodemon --watch dist --exec sls offline --httpPort 7000 --lambdaPort 7002",
     "deploy": "sls deploy"
   }
 }

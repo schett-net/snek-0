@@ -1,0 +1,12 @@
+setup.py
+django_iam/__init__.py
+django_iam/init.py
+django_iam/manage.py
+django_iam/proxy.py
+django_iam/proxy_handler.py
+django_iam/settings.py
+django_iam.egg-info/PKG-INFO
+django_iam.egg-info/SOURCES.txt
+django_iam.egg-info/dependency_links.txt
+django_iam.egg-info/requires.txt
+django_iam.egg-info/top_level.txt

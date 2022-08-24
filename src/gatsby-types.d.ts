@@ -420,6 +420,8 @@ type File = Node & {
   readonly birthtime: Maybe<Scalars['Date']>;
   /** @deprecated Use `birthTime` instead */
   readonly birthtimeMs: Maybe<Scalars['Float']>;
+  readonly blksize: Maybe<Scalars['Int']>;
+  readonly blocks: Maybe<Scalars['Int']>;
   readonly changeTime: Scalars['Date'];
   /** Returns the first child node of type ImageSharp or null if there are no children of given type on this node */
   readonly childImageSharp: Maybe<ImageSharp>;
@@ -565,6 +567,8 @@ type FileFieldsEnum =
   | 'birthTime'
   | 'birthtime'
   | 'birthtimeMs'
+  | 'blksize'
+  | 'blocks'
   | 'changeTime'
   | 'childImageSharp.children'
   | 'childImageSharp.children.children'
@@ -826,6 +830,8 @@ type FileFilterInput = {
   readonly birthTime: InputMaybe<DateQueryOperatorInput>;
   readonly birthtime: InputMaybe<DateQueryOperatorInput>;
   readonly birthtimeMs: InputMaybe<FloatQueryOperatorInput>;
+  readonly blksize: InputMaybe<IntQueryOperatorInput>;
+  readonly blocks: InputMaybe<IntQueryOperatorInput>;
   readonly changeTime: InputMaybe<DateQueryOperatorInput>;
   readonly childImageSharp: InputMaybe<ImageSharpFilterInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
@@ -1994,6 +2000,8 @@ type JaenPageFieldsEnum =
   | 'jaenFile.birthTime'
   | 'jaenFile.birthtime'
   | 'jaenFile.birthtimeMs'
+  | 'jaenFile.blksize'
+  | 'jaenFile.blocks'
   | 'jaenFile.changeTime'
   | 'jaenFile.childImageSharp.children'
   | 'jaenFile.childImageSharp.children.children'
@@ -2158,6 +2166,8 @@ type JaenPageFieldsEnum =
   | 'jaenFiles.birthTime'
   | 'jaenFiles.birthtime'
   | 'jaenFiles.birthtimeMs'
+  | 'jaenFiles.blksize'
+  | 'jaenFiles.blocks'
   | 'jaenFiles.changeTime'
   | 'jaenFiles.childImageSharp.children'
   | 'jaenFiles.childImageSharp.children.children'
@@ -2370,6 +2380,8 @@ type JaenPageFieldsEnum =
   | 'sections.items.jaenFile.birthTime'
   | 'sections.items.jaenFile.birthtime'
   | 'sections.items.jaenFile.birthtimeMs'
+  | 'sections.items.jaenFile.blksize'
+  | 'sections.items.jaenFile.blocks'
   | 'sections.items.jaenFile.changeTime'
   | 'sections.items.jaenFile.children'
   | 'sections.items.jaenFile.childrenImageSharp'
@@ -2406,6 +2418,8 @@ type JaenPageFieldsEnum =
   | 'sections.items.jaenFiles.birthTime'
   | 'sections.items.jaenFiles.birthtime'
   | 'sections.items.jaenFiles.birthtimeMs'
+  | 'sections.items.jaenFiles.blksize'
+  | 'sections.items.jaenFiles.blocks'
   | 'sections.items.jaenFiles.changeTime'
   | 'sections.items.jaenFiles.children'
   | 'sections.items.jaenFiles.childrenImageSharp'
@@ -2790,6 +2804,8 @@ type Query_fileArgs = {
   birthTime: InputMaybe<DateQueryOperatorInput>;
   birthtime: InputMaybe<DateQueryOperatorInput>;
   birthtimeMs: InputMaybe<FloatQueryOperatorInput>;
+  blksize: InputMaybe<IntQueryOperatorInput>;
+  blocks: InputMaybe<IntQueryOperatorInput>;
   changeTime: InputMaybe<DateQueryOperatorInput>;
   childImageSharp: InputMaybe<ImageSharpFilterInput>;
   children: InputMaybe<NodeFilterListInput>;
