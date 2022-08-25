@@ -4,7 +4,6 @@ frameworkVersion: '3'
 plugins:
   - serverless-offline
   - serverless-plugin-ifelse
-  - serverless-cloudflare-workers
 
 custom:
   isOffline: ${env:IS_OFFLINE, "false"}

@@ -1,21 +1,4 @@
-export interface IUser {
-  isDemo?: boolean
-  email: string
-  full_name: string
-  image_url: string
-}
-
-export interface IAuthLoginResponse {
-  access_token: string
-  refresh_token: string
-}
-
-export interface IAuthRefreshResponse {
-  access_token: string
-}
-
-export interface IAuthPayload {
-  user: string
-  password: string
-  token?: string
+export interface TokenPair {
+  accessToken: string
+  refreshToken: string
 }

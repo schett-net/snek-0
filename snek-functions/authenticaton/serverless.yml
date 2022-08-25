@@ -1,11 +1,19 @@
-service: snek-functions-graphql-helix-express
+service: authenticaton
 frameworkVersion: '3'
+useDotenv: true
 
 plugins:
   - serverless-offline
   - serverless-plugin-ifelse
+  - serverless-dotenv-plugin
 
 custom:
+  dotenv:
+    exclude:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+
   isOffline: ${env:IS_OFFLINE, "false"}
   serverlessIfElse:
     - If: '"${self:custom.isOffline}" != "true"'
@@ -17,7 +25,11 @@ custom:
 provider:
   name: aws
   region: eu-central-1
-  	
+
+  environment:
+    AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+
   iam:
     role:
       statements:
