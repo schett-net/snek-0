@@ -1,42 +1,27 @@
-import {fn} from './factory'
-import {jwt, storage} from './internal/index.js'
+import { fn } from './factory';
+import { storage } from './internal/index.js';
 
 const authenticate = fn<
   {username: string; password: string},
   {
-    accessToken: string
-    refreshToken: string
+    uid: string
   }
 >(
   async ({username, password}, _, req) => {
     // Does one alias per user really make sense?
     const user = (await storage.queryDatabaseWithIterator(username)) as {
+      uid: number
       alias: string
       password: string
     }
 
     if (username === user.alias && password === user.password) {
-      const scope = 'user'
-
-      const jwtAccessToken = jwt.newAccessToken({
-        subject: username,
-        durration: '1d',
-        scope
-      })
-
-      const jwtRefreshToken = jwt.newRefreshToken({
-        accessToken: jwtAccessToken,
-        scope,
-        durration: '30d'
-      })
-
       return {
-        accessToken: jwtAccessToken,
-        refreshToken: jwtRefreshToken
+        uid: user.uid.toString()
       }
     }
 
-    throw new Error(`Unable to authenticate`)
+    throw new Error(`Unable to authenticate: ${username}`)
   },
   {
     name: 'authenticate'

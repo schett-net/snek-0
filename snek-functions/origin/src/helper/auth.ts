@@ -1,4 +1,5 @@
 import {Response} from 'express'
+import {newAccessToken, verify} from '../internal/token/factory.js'
 
 import {
   COOKIE_OPTIONS,
@@ -21,4 +22,21 @@ export function setAuthenticationCookies(
     ...COOKIE_OPTIONS,
     maxAge: LOGIN_REFRESH_TOKEN_COOKIE_MAX_AGE * 1000
   })
+}
+
+export function generateInternalToken({
+  ressourceId,
+  accessToken
+}: {
+  ressourceId: string
+  accessToken: string
+}) {
+  const parts = verify(accessToken)
+
+  const {accessToken: limitedAccessToken} = newAccessToken({
+    subject: parts.sub,
+    scope: parts.scope[ressourceId]
+  })
+
+  return `Bearer ${limitedAccessToken}`
 }

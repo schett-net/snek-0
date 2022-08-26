@@ -1,53 +1,53 @@
 import {Decorator} from '@snek-at/functions'
-import {refresh} from '@snek-functions/authenticaton'
-import jwt from 'jsonwebtoken'
 
+import {REFRESH_TOKEN_COOKIE_NAME, TOKEN_COOKIE_NAME} from '../constants.js'
 import {
-  REFRESH_TOKEN_COOKIE_NAME,
-  SHARED_SECRET,
-  TOKEN_COOKIE_NAME
-} from '../constants.js'
-import {setAuthenticationCookies} from '../helper/auth.js'
+  generateInternalToken,
+  setAuthenticationCookies
+} from '../helper/auth.js'
+import {refreshTokens, verify} from '../internal/token/factory.js'
 
 const loginRequired: Decorator = async (args, _, {req, res}) => {
-  const tokenCookie = req.cookies[TOKEN_COOKIE_NAME]
-  const refreshCookie = req.cookies[REFRESH_TOKEN_COOKIE_NAME]
+  let tokenCookie = req.cookies[TOKEN_COOKIE_NAME]
+  let refreshCookie = req.cookies[REFRESH_TOKEN_COOKIE_NAME]
 
-  let tokenPayload: string | null
-  let refreshTokenPayload: string | null
-
-  try {
-    tokenPayload = jwt.verify(tokenCookie, SHARED_SECRET) as string
-  } catch {
-    tokenPayload = null
-  }
-
-  if (tokenPayload) {
-    return
-  }
+  let accessToken: string
+  let refreshToken: string
 
   try {
-    refreshTokenPayload = jwt.verify(refreshCookie, SHARED_SECRET) as string
+    verify(tokenCookie)
+
+    accessToken = tokenCookie
   } catch {
-    refreshTokenPayload = null
-  }
+    // If the token is invalid, we need to refresh it
 
-  if (refreshTokenPayload) {
-    const {data, errors} = await refresh.execute({
-      refreshToken: refreshCookie
-    })
+    try {
+      verify(refreshCookie)
 
-    if (errors.length === 0 && data) {
-      const accessToken = data.accessToken
-      const refreshToken = data.refreshToken
+      refreshToken = refreshCookie
+
+      const newTokens = refreshTokens({
+        refreshToken: refreshCookie,
+        durration: '30d'
+      })
+
+      accessToken = newTokens.accessToken
+      refreshToken = newTokens.refreshToken
 
       setAuthenticationCookies(res, accessToken, refreshToken)
-
-      return
+    } catch {
+      throw new Error('Unable to authenticate')
     }
   }
 
-  throw new Error('Access Denied')
+  if (!accessToken) {
+    throw new Error('This error should never be thrown')
+  }
+
+  req.headers.authorization = generateInternalToken({
+    ressourceId: 'res1',
+    accessToken
+  })
 }
 
 export default loginRequired

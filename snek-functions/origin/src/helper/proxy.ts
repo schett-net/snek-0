@@ -1,5 +1,6 @@
 import {Request} from 'express'
-import {TOKEN_COOKIE_NAME} from '../constants.js'
+
+import {withAuthorizationHeader} from './withAuthorizationHeader.js'
 
 export async function proxyRequest(
   fetchParams: Parameters<typeof fetch>,
@@ -8,7 +9,7 @@ export async function proxyRequest(
   const [input, init] = fetchParams
   const headers: Headers = new Headers(init?.headers)
 
-  appendAuthorizationHeader(req, headers)
+  withAuthorizationHeader(req, headers)
 
   if (!isWhitelisted(input)) {
     throw new Error(`URL is not whitelisted`)
@@ -20,14 +21,6 @@ export async function proxyRequest(
   })
 
   return fetchRes
-}
-
-function appendAuthorizationHeader(req: Request, headers: Headers) {
-  const token = req.cookies[TOKEN_COOKIE_NAME]
-
-  if (token) {
-    headers.append('Authorization', `Bearer ${token}`)
-  }
 }
 
 function isWhitelisted(input: RequestInfo | URL) {

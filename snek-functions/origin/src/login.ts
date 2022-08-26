@@ -2,6 +2,8 @@ import {authenticate} from '@snek-functions/authenticaton'
 
 import {fn} from './factory'
 
+import {newAccessToken, newRefreshToken} from './internal/token/factory.js'
+
 import {setAuthenticationCookies} from './helper/auth.js'
 
 const login = fn<{username: string; password: string}, void>(
@@ -9,12 +11,24 @@ const login = fn<{username: string; password: string}, void>(
     const {data, errors} = await authenticate.execute(args)
 
     if (errors.length > 0) {
-      throw new Error(`Unable to authenticate: ${errors[0].message}`)
+      throw new Error(errors[0].message)
     }
 
     if (data) {
-      const accessToken = data.accessToken
-      const refreshToken = data.refreshToken
+      const scope = {
+        res1: ['read', 'write'],
+        res2: ['read', 'write']
+      }
+
+      const {accessToken} = newAccessToken({
+        subject: data.uid,
+        scope
+      })
+
+      const {refreshToken} = newRefreshToken({
+        accessToken: accessToken,
+        scope
+      })
 
       setAuthenticationCookies(res, accessToken, refreshToken)
     }

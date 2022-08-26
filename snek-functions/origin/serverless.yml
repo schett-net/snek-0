@@ -1,5 +1,6 @@
 service: origin
 frameworkVersion: '3'
+useDotenv: true
 
 plugins:
   - serverless-offline
@@ -10,16 +11,18 @@ custom:
   serverlessIfElse:
     - If: '"${self:custom.isOffline}" != "true"'
       Exclude:
-        - functions.endpoint
+        - functions.endpoint.handler
       ElseExclude:
         - functions.endpoint.image
-        - functions.cf-workers
 
 provider:
-  name: cloudflare
-  config:
-    accountId: ${env:CLOUDFLARE_ACCOUNT_ID, ""}
-    zoneId: ${env:CLOUDFLARE_ZONE_ID, ""}
+  name: aws
+  region: eu-central-1
+
+  ecr:
+    images:
+      appimage:
+        path: ./
 
 functions:
   endpoint:
@@ -32,11 +35,3 @@ functions:
       - httpApi:
           path: '*'
           method: '*'
-
-  cf-workers:
-    name: origin
-    script: index
-    events:
-      - http:
-          url: snek.at/graphql
-          method: GET

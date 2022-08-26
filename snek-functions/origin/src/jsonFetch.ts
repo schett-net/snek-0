@@ -30,6 +30,8 @@ const jsonFetch = fn<Parameters<typeof fetch>, FetchResponse>(
       json: await proxiedRes.json()
     }
 
+    console.log(req.headers)
+
     return responseData
   },
   {
